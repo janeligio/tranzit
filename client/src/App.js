@@ -1,25 +1,46 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Navbar from './components/Navbar';
+import UserInfo from './components/UserInfo';
+import Favorites from './components/Favorites';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      location: '',
+      favorites: ["yo"]
+    };
+  }
+
+  handleLocation = (e) => {
+    e.preventDefault();
+    console.log(e.currentTarget.value);
+    this.setState({
+      location: e.currentTarget.value
+    });
+    console.log(this.state.location);
+  }
+
+  favorite = (e) => {
+    e.preventDefault();
+    let newFavs = this.state.favorites;
+    newFavs.push(this.state.location);
+    this.setState({ favorites: newFavs});
+    console.log(this.state.favorites);
+  }
+
+
+
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Navbar />
+        <UserInfo location={this.state.location} handleLocation={(e) => this.handleLocation(e)} 
+        favorite={(e) => this.favorite(e) } />
+        <Favorites favorites={this.state.favorites}/>
       </div>
     );
   }
